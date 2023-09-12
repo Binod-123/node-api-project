@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const db = require('./config');
-const user=require('./cont/user');
+const User=require('./cont/user');
 const port = process.env.PORT || 4506;
 
 // app.get("/", (req, res) =>{
@@ -17,7 +17,11 @@ const port = process.env.PORT || 4506;
 //  }
 // };
 // start();
-app.post('/register', (req, res) => {
-    res.send('Welcome to my world');
+app.use(express.json());
+app.post('/register', async(req, res) => {
+    let user = new User(req.body);
+let result = await user(user.save());
+    res.send(result);
+    //console.log(result);
 });
 app.listen(port);
